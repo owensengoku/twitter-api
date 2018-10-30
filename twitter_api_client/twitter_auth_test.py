@@ -22,6 +22,6 @@ def test_get_access_token(requests_mock):
     consumer_secret = ''
     client = TwitterOAuth2(consumer_key, consumer_secret)
     expected = "'code': 99, 'message': 'Unable to verify your credentials'"
-    with pytest.raises(TwitterRequestError, match=expected):
+    with pytest.raises(TwitterRequestError, match=expected) as exc_info:
         token = client.get_access_token()
-    
+    assert exc_info.value.errors == [{'code': 99, 'message': 'Unable to verify your credentials', 'label': 'authenticity_token_error'}]

@@ -18,13 +18,13 @@ class TwitterError(Exception):
         self.status_code = status_code
         # Error Messages is the body twitter API return
         # JSON format, should like {"errors":[{"message":"Sorry, that page does not exist","code":34}]}
-        self.error_messages = error_messages
+        self.errors = error_messages.get('errors',[])
         msg = str(self)
         super(Exception, self).__init__(msg)
         
         
     def __str__(self):
-        return '(%d) %s' % (self.status_code, self.error_messages )
+        return '(%d) %s' % (self.status_code, self.errors)
 
 
 class TwitterRequestError(TwitterError):

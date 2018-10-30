@@ -40,12 +40,11 @@ class TwitterOAuth2(requests.auth.AuthBase):
                 params=params,
                 headers=headers)
             data = response.json()
-            print(data)
             # HTTP Status Code 200
             if response.status_code == requests.codes['ok']:
                 return data['access_token']
             raise_twitter_error(response.status_code, data)
-        except TwitterError as te:
-            raise te
+        except TwitterError:
+            raise
         except Exception as e:
             raise Exception('Error requesting bearer access token: %s' % e)
