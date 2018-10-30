@@ -9,6 +9,7 @@ SCHEME = 'https'
 ROOT_DOMAIN = 'twitter.com'
 VERSION = '1.1'
 NOVERSION = 'NOVERSION'
+USER_AGENT = 'twitter-api-client'
 
 ENDPOINT_AUTH = {
     'subdomain': 'api',
@@ -17,7 +18,7 @@ ENDPOINT_AUTH = {
     'method': 'post'
 }
 
-ENDPOINT_AUTH = {
+ENDPOINT_SEARCH = {
     'subdomain': 'api',
     'version': VERSION,
     'path': 'search/tweets.json',
