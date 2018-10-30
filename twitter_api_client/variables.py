@@ -31,3 +31,9 @@ ENDPOINT_SEARCH = {
     'method': 'get'
 }
 
+ENDPOINT_USER_TIMELINE = {
+    'subdomain': 'api',
+    'version': VERSION,
+    'path': 'statuses/user_timeline.json',
+    'method': 'get'
+}

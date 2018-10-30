@@ -18,8 +18,7 @@ class TwitterOAuth2(requests.auth.AuthBase):
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
         self._access_token = None
-
-
+        
     def _get_credentials(self):
         auth = '%s:%s' % (self.consumer_key, self.consumer_secret)
         return base64.b64encode(auth.encode('utf8'))

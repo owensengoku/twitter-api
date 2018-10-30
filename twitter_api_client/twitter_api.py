@@ -64,3 +64,20 @@ class TwitterAPI(object):
         params = options.copy()  
         params['q'] = keyword  
         return self.request(ENDPOINT_SEARCH, params=params)
+
+    def user_timeline(self, user_id=None, screen_name=None, options=None):
+        params = options.copy()
+        # Check if user_id and screen_name are used at the same time is just to remind.
+        # Actually, after trying with twitter API.
+        # If pass these two argument at the same time, only screen_name work, twitter API will ignore the user_id argument.
+        if all([user_id, screen_name]):
+            # raise ValueError, reference is following URL.
+            # https://stackoverflow.com/questions/256222/which-exception-should-i-raise-on-bad-illegal-argument-combinations-in-python 
+            raise ValueError('user_id, screen_name only should use only one at the same time')
+
+        if user_id is not None:
+            params['user_id'] = user_id
+        if screen_name is not None:
+            params['screen_name'] = screen_name
+
+        return self.request(ENDPOINT_USER_TIMELINE, params=params)
