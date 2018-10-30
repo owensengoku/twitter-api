@@ -31,7 +31,7 @@ class TwitterOAuth2(requests.auth.AuthBase):
         params = {'grant_type': 'client_credentials'}
         headers = {}
         headers['User-Agent'] = USER_AGENT
-        headers['Authorization'] = 'Basic ' + credentials.decode('utf8')
+        headers['Authorization'] = 'Basic %s' % credentials.decode('utf8')
         headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
         try:
             response = requests.request(
@@ -55,5 +55,5 @@ class TwitterOAuth2(requests.auth.AuthBase):
         if self._access_token is None:
             self._access_token = self.get_access_token()
 
-        r.headers['Authorization'] = "Bearer %s" % self._access_token
+        r.headers['Authorization'] = 'Bearer %s' % self._access_token
         return r

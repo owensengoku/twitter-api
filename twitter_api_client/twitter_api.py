@@ -50,7 +50,7 @@ class TwitterAPI(object):
                     timeout=timeout)
                 # HTTP Status Code 200
                 if response.status_code == requests.codes['ok']:
-                    return response.json()
+                    return get_result(response, endpoint.get('return'))
                 raise_twitter_error(response.status_code, response.json())
             except TwitterError:
                 raise

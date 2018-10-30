@@ -17,6 +17,8 @@ CONNECT_TIMEOUT = 10
 READ_TIMEOUT = 10
 REQUEST_TIMEOUT = (CONNECT_TIMEOUT, READ_TIMEOUT)
 
+RETURN_ALL = 'RETURNALL'
+
 ENDPOINT_AUTH = {
     'subdomain': 'api',
     'version': NOVERSION,
@@ -28,12 +30,14 @@ ENDPOINT_SEARCH = {
     'subdomain': 'api',
     'version': VERSION,
     'path': 'search/tweets.json',
-    'method': 'get'
+    'method': 'get',
+    'return' : 'statuses'
 }
 
 ENDPOINT_USER_TIMELINE = {
     'subdomain': 'api',
     'version': VERSION,
     'path': 'statuses/user_timeline.json',
-    'method': 'get'
+    'method': 'get',
+    'return': RETURN_ALL
 }
