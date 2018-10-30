@@ -17,6 +17,7 @@ class TwitterOAuth2(requests.auth.AuthBase):
     def __init__(self, consumer_key, consumer_secret, proxies=None):
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
+        self._access_token = None
 
 
     def _get_credentials(self):
@@ -48,3 +49,12 @@ class TwitterOAuth2(requests.auth.AuthBase):
             raise
         except Exception as e:
             raise Exception('Error requesting bearer access token: %s' % e)
+    """
+    For compatiablility of requests
+    """
+    def __call__(self, r):
+        if self._access_token is None:
+            self._access_token = self.get_access_token()
+
+        r.headers['Authorization'] = "Bearer %s" % self._access_token
+        return r

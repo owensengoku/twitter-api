@@ -11,6 +11,12 @@ VERSION = '1.1'
 NOVERSION = 'NOVERSION'
 USER_AGENT = 'twitter-api-client'
 
+# timeout default value for requests
+# https://github.com/requests/requests/blob/master/requests/api.py#L34
+CONNECT_TIMEOUT = 10
+READ_TIMEOUT = 10
+REQUEST_TIMEOUT = (CONNECT_TIMEOUT, READ_TIMEOUT)
+
 ENDPOINT_AUTH = {
     'subdomain': 'api',
     'version': NOVERSION,
