@@ -46,6 +46,7 @@ If your app will be used to post Tweets, follow accounts, or send Direct Message
         - There are pagination limits
             - Clients may access a theoretical maximum of 3,200 statuses via the page and count parameters for the user_timeline REST API methods. Other timeline methods have a theoretical maximum of 800 statuses. Requests for more than the limit will result in a reply with a status code of 200 and an empty result in the format requested. T
 
+- Do not forget to set `Dev environment`: https://developer.twitter.com/en/account/environments
 
 ## Basic
 - https://developer.twitter.com/en/docs/basics/things-every-developer-should-know
