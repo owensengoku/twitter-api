@@ -93,7 +93,7 @@ class TwitterAPI(object):
         # Convert the UTC epoch to datetime.datetime
         # Notice: iterate the dictionary with .items is for Python 3
         # Ref: https://stackoverflow.com/questions/10458437/what-is-the-difference-between-dict-items-and-dict-iteritems
-        for group, epdict in ret.get('results',{}).items():
+        for group, epdict in ret.get('result',{}).items():
             for k, v in epdict.items():
-                ret['results'][group][k]['reset'] = datetime.fromtimestamp(v.get('reset',0))
+                ret['result'][group][k]['reset'] = datetime.fromtimestamp(v.get('reset',0))
         return ret

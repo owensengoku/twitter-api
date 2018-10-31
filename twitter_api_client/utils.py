@@ -33,13 +33,14 @@ def get_rate_limit_info(headers):
     return ret
 
 
-def get_result(response, return_property):
+def get_result(response, return_args):
     data = response.json()
-    if return_property == RETURN_ALL:
-        results = data
+    from_field =  return_args.get('from')
+    if from_field == RETURN_ALL:
+        v = data
     else:
-        results = data.get(return_property)
+        v = data.get(from_field)
     return {
         'rate_limit_info': get_rate_limit_info(response.headers),
-        'results': results
+        return_args.get('to'): v
     }

@@ -71,5 +71,5 @@ def test_rate_limit_status(requests_mock):
         }
     }
     ret = client.rate_limit_status()
-    assert ret.get('results') == expected
+    assert ret.get('result') == expected
     

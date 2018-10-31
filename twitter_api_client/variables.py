@@ -33,7 +33,10 @@ ENDPOINT_SEARCH = {
     'version': VERSION,
     'path': 'search/tweets.json',
     'method': 'get',
-    'return' : 'statuses'
+    'return' : {
+        'from': 'statuses',
+        'to': 'results'
+    }
 }
 
 # Ref: https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html
@@ -42,7 +45,10 @@ ENDPOINT_USER_TIMELINE = {
     'version': VERSION,
     'path': 'statuses/user_timeline.json',
     'method': 'get',
-    'return': RETURN_ALL
+    'return': {
+        'from': RETURN_ALL,
+        'to': 'results'
+    }
 }
 
 # Ref: https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status
@@ -51,5 +57,8 @@ ENDPOINT_RATE_LIMIT_STATUS = {
     'version': VERSION,
     'path': 'application/rate_limit_status.json',
     'method': 'get',
-    'return': 'resources'
+    'return': {
+        'from': 'resources',
+        'to': 'result'
+    }
 }
