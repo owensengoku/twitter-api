@@ -32,7 +32,7 @@ class TwitterAPI(object):
         :param timeout: (optional) How many seconds to wait for the server to send data
                          before giving up, as  a :ref:`(connect timeout, read timeout) 
                          <timeouts>` tuple.
-        :returns: TwitterResponse
+        :returns: Dictionary {'rate_limit_info':{}, ....}
         :raises: TwitterError
         """
         if timeout is None:
@@ -61,14 +61,29 @@ class TwitterAPI(object):
             except Exception as e:
                 raise Exception('Error requesting twitter api: %s, exception: %s' % (endpoint,e))
 
-    # Ref: https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets.html
     def search_tweets(self, keyword, options={}):
+        """Search Tweets
+
+        :param keyword:  The search keyword
+        :param options: optional query parametes, paramter name ref: https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets.html
+    
+        :returns: Dictionary {'rate_limit_info':{}, ....}
+        :raises: TwitterError
+        """
         params = options.copy()  
         params['q'] = keyword  
         return self.request(ENDPOINT_SEARCH, params=params)
 
-    # Ref: https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html
     def user_timeline(self, user_id=None, screen_name=None, options={}):
+        """User Timeline
+
+        :param user_id: user id
+        :param screen_name: user screen name on twitter
+        :param options: optional query parametes, paramter name ref: https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html
+    
+        :returns: Dictionary {'rate_limit_info':{}, ....}
+        :raises: TwitterError
+        """
         params = options.copy()
         # Check if user_id and screen_name are used at the same time is just to remind.
         # Actually, after trying with twitter API.
@@ -85,8 +100,14 @@ class TwitterAPI(object):
 
         return self.request(ENDPOINT_USER_TIMELINE, params=params)
 
-    # Ref: https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status
     def rate_limit_status(self, options={}):
+        """Get all api endpoint rate limit info
+
+        :param options: optional query parametes, paramter name ref: # Ref: https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status
+    
+        :returns: Dictionary {'rate_limit_info':{}, ....}
+        :raises: TwitterError
+        """
         params = options.copy()
         ret = self.request(ENDPOINT_RATE_LIMIT_STATUS, params=params)
         # Make constitent data format with rate limit info  
