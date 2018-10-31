@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
 
-
 from flask_api import FlaskAPI
 
+import os
 app = FlaskAPI(__name__)
 app.config["DEBUG"] = True
+
+app.config['TWITTER_API_CONSUMER_KEY'] = os.getenv('CONSUMER_KEY')
+app.config['TWITTER_API_CONSUMER_SECRET'] = os.getenv('CONSUMER_SECRET')
+
+from .resource import init_resoureces
+init_resoureces()
 
 from .handler import *
 

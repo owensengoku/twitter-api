@@ -4,6 +4,7 @@ from flask import request
 from flask_api import status
 
 from .api import app
+from .resource import twitter_back_service
 from .response import response_message
 from .validate import get_args
 
@@ -16,16 +17,15 @@ def welcome():
 def health_check_handler():
     return response_message("Hello, I am OK!")
 
-
 @app.route('/hashtags/<hashtag>', methods=['GET'])
 def haghtags_handler(hashtag):
     args = get_args(request.args)
-    return response_message("I got you want find hashtag: #%s" % hashtag )
-
+    return twitter_back_service.search_tweets('#%s' % hashtag, args.get('limit'))
+   
 @app.route('/users/<user>', methods=['GET'])
 def users_handler(user):
     args = get_args(request.args)
-    return response_message("I got you want find user: @%s" % user )
+    return twitter_back_service.user_timeline('@%s' % user, args.get('limit'))
 
 @app.errorhandler(status.HTTP_404_NOT_FOUND)
 def not_found_handler(e):
