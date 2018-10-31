@@ -6,6 +6,7 @@ from .utils import *
 
 from requests.exceptions import ConnectionError, ReadTimeout, SSLError
 from requests.packages.urllib3.exceptions import ReadTimeoutError, ProtocolError
+from datetime import datetime
 
 import requests
 import socket
@@ -60,12 +61,14 @@ class TwitterAPI(object):
             except Exception as e:
                 raise Exception('Error requesting twitter api: %s, exception: %s' % (endpoint,e))
 
-    def search_tweets(self, keyword, options=None):
+    # Ref: https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets.html
+    def search_tweets(self, keyword, options={}):
         params = options.copy()  
         params['q'] = keyword  
         return self.request(ENDPOINT_SEARCH, params=params)
 
-    def user_timeline(self, user_id=None, screen_name=None, options=None):
+    # Ref: https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html
+    def user_timeline(self, user_id=None, screen_name=None, options={}):
         params = options.copy()
         # Check if user_id and screen_name are used at the same time is just to remind.
         # Actually, after trying with twitter API.
@@ -81,3 +84,16 @@ class TwitterAPI(object):
             params['screen_name'] = screen_name
 
         return self.request(ENDPOINT_USER_TIMELINE, params=params)
+
+    # Ref: https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status
+    def rate_limit_status(self, options={}):
+        params = options.copy()
+        ret = self.request(ENDPOINT_RATE_LIMIT_STATUS, params=params)
+        # Make constitent data format with rate limit info  
+        # Convert the UTC epoch to datetime.datetime
+        # Notice: iterate the dictionary with .items is for Python 3
+        # Ref: https://stackoverflow.com/questions/10458437/what-is-the-difference-between-dict-items-and-dict-iteritems
+        for group, epdict in ret.get('results',{}).items():
+            for k, v in epdict.items():
+                ret['results'][group][k]['reset'] = datetime.fromtimestamp(v.get('reset',0))
+        return ret

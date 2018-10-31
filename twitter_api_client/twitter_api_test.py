@@ -6,6 +6,8 @@ from .twitter_error import *
 from .utils import generate_url
 from .variables import *
 
+from datetime import datetime
+
 import pytest
 import requests
 
@@ -39,16 +41,35 @@ def test_user_timeline(requests_mock):
 
 
 def test_user_timeline(requests_mock):
-    test_headers = {
-        'x-rate-limit-limit': '1500',
-        'x-rate-limit-remaining': '1497',
-        'x-rate-limit-reset': '1540917079'
-    }
-    requests_mock.post(generate_url(ENDPOINT_USER_TIMELINE), headers=test_headers, json={'token_type': 'bearer', 'access_token': 'ACCESSTOKENAAAAAAAAAALYX8wAAAAAAsgM6MD8%2F%2BqU75lSu8vhowzkfuZQ%3Db2MlUpIakaSUtLi0JsSSCsg53v5BTBPu9e3t4Bcgt7i5rzn6e9'})
+    requests_mock.post(generate_url(ENDPOINT_AUTH), json={'token_type': 'bearer', 'access_token': 'ACCESSTOKENAAAAAAAAAALYX8wAAAAAAsgM6MD8%2F%2BqU75lSu8vhowzkfuZQ%3Db2MlUpIakaSUtLi0JsSSCsg53v5BTBPu9e3t4Bcgt7i5rzn6e9'})
     consumer_key = 'key'
     consumer_secret = 'secret'
     client = TwitterAPI(TwitterOAuth2(consumer_key, consumer_secret))
     expected = 'user_id, screen_name only should use only one at the same time'
     with pytest.raises(ValueError, match=expected):
         ret = client.user_timeline(1234567, 'HNTweets', {'count':1})
+    
+
+def test_rate_limit_status(requests_mock):
+    requests_mock.post(generate_url(ENDPOINT_AUTH), json={'token_type': 'bearer', 'access_token': 'ACCESSTOKENAAAAAAAAAALYX8wAAAAAAsgM6MD8%2F%2BqU75lSu8vhowzkfuZQ%3Db2MlUpIakaSUtLi0JsSSCsg53v5BTBPu9e3t4Bcgt7i5rzn6e9'})
+    test_headers = {
+        'x-rate-limit-limit': '1500',
+        'x-rate-limit-remaining': '1497',
+        'x-rate-limit-reset': '1540917079'
+    }
+    requests_mock.get(generate_url(ENDPOINT_RATE_LIMIT_STATUS), headers=test_headers, json={'resources': {'lists': {'/lists/list': {'limit': 15, 'remaining': 15, 'reset': 1540947383}}}})
+    consumer_key = 'key'
+    consumer_secret = 'secret'
+    client = TwitterAPI(TwitterOAuth2(consumer_key, consumer_secret))
+    expected = {
+        'lists': {
+            '/lists/list': {
+                'limit': 15,
+                'remaining': 15,
+                'reset': datetime(2018, 10, 31, 8, 56, 23)
+            }
+        }
+    }
+    ret = client.rate_limit_status()
+    assert ret.get('results') == expected
     

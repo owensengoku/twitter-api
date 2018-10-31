@@ -19,6 +19,7 @@ REQUEST_TIMEOUT = (CONNECT_TIMEOUT, READ_TIMEOUT)
 
 RETURN_ALL = 'RETURNALL'
 
+# Ref: https://developer.twitter.com/en/docs/basics/authentication/api-reference/token
 ENDPOINT_AUTH = {
     'subdomain': 'api',
     'version': NOVERSION,
@@ -26,6 +27,7 @@ ENDPOINT_AUTH = {
     'method': 'post'
 }
 
+# Ref: https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets.html
 ENDPOINT_SEARCH = {
     'subdomain': 'api',
     'version': VERSION,
@@ -34,10 +36,20 @@ ENDPOINT_SEARCH = {
     'return' : 'statuses'
 }
 
+# Ref: https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html
 ENDPOINT_USER_TIMELINE = {
     'subdomain': 'api',
     'version': VERSION,
     'path': 'statuses/user_timeline.json',
     'method': 'get',
     'return': RETURN_ALL
+}
+
+# Ref: https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status
+ENDPOINT_RATE_LIMIT_STATUS = {
+    'subdomain': 'api',
+    'version': VERSION,
+    'path': 'application/rate_limit_status.json',
+    'method': 'get',
+    'return': 'resources'
 }
