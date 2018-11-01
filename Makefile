@@ -17,8 +17,6 @@ help:
 	@echo "       run project"
 	@echo "make run-gunicron"
 	@echo "       run project with gunicron"
-	@echo "make doc"
-	@echo "       build swagger documentation"
 
 prepare-dev-ubuntu:
 	sudo apt-get -y install python3.6 python3-pip
