@@ -19,9 +19,10 @@ def invoke_error_service(requests_mock):
     requests_mock.get('https://api.twitter.com/1.1/search/tweets.json?q=400&count=1', json={"errors":[]}, status_code=400)
     requests_mock.get('https://api.twitter.com/1.1/search/tweets.json?q=429&count=1', json={"errors":[]}, status_code=429)
     requests_mock.get('https://api.twitter.com/1.1/search/tweets.json?q=500&count=1', json={"errors":[]}, status_code=500)
-    svc = TwitterBackService()
+    app.config['TESTING'] = True
     app.config['TWITTER_API_CONSUMER_KEY'] = 'key'
     app.config['TWITTER_API_CONSUMER_SECRET'] = 'secret'
+    svc = TwitterBackService()
     svc.init_app(app)
     yield svc
 
@@ -162,9 +163,10 @@ def mock_service(requests_mock):
     requests_mock.get('https://api.twitter.com/1.1/search/tweets.json?q=#HappyHalloween&count=1', headers=test_headers, json=search_expected )
     requests_mock.get('https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=QJenn77&count=1', headers=test_headers, json=user_expected )
     
-    svc = TwitterBackService()
+    app.config['TESTING'] = True
     app.config['TWITTER_API_CONSUMER_KEY'] = 'key'
     app.config['TWITTER_API_CONSUMER_SECRET'] = 'secret'
+    svc = TwitterBackService()
     svc.init_app(app)
     yield svc
 
