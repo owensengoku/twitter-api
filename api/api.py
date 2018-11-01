@@ -18,7 +18,8 @@ def set_config(cfg):
     if cfg.get('APPLICATION_CONFIG_PATH') is not None:
         app.config.from_envvar('APPLICATION_CONFIG_PATH')
     for k,v in cfg.items():
-        app.config[k] = v  
+        if v is not None:
+            app.config[k] = v
 
 def get_application(cfg):
     set_config(cfg)
