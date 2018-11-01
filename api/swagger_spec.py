@@ -11,6 +11,16 @@ haghtags_spec = {
       "type": "string",
       "required": True,
       "description": "The haghtag for query tweets"
+    },
+    {
+      "name": "limit",
+      "in": "query",
+      "type": "integer",
+      "required": False,
+      "minimum": 1,
+      "mamimum": 3200,
+      "default": 30,
+      "description": "The number of tweets for querying"
     }
   ],
   "operationId": "get_tweets_with_haghtag",
@@ -123,6 +133,16 @@ users_spec = {
       "type": "string",
       "required": True,
       "description": "The user screen name for query his timeline"
+    },
+    {
+      "name": "limit",
+      "in": "query",
+      "type": "integer",
+      "required": False,
+      "minimum": 1,
+      "mamimum": 3200,
+      "default": 30,
+      "description": "The number of tweets for querying"
     }
   ],
   "operationId": "get_tweets_with_user",

@@ -19,9 +19,9 @@ help:
 	@echo "       run project with gunicron"
 
 prepare-dev-ubuntu:
-	sudo apt-get -y install python3.6 python3-pip
-	python3 -m pip install virtualenv
-	virtualenv -p python3 $(VENV_NAME)
+	sudo apt-get -y install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools
+	sudo apt install python3-venv
+	python3.6 -m venv $(VENV_NAME)
 	make venv
 	make dep
 
