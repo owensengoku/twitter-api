@@ -3,6 +3,36 @@ Trying about build an api to query data with twitter api
 
 
 ## Overview
+- A Practice for API  with a Twitter API Client from zero
+
+
+## QuickStart
+- There is a docker image on hub https://hub.docker.com/r/owensengoku/twitter-api/
+- So You could feel it from docker
+- `$ docker pull owensengoku/twitter-api:v0.1.0`
+- edit a environment variable file `twitter-api.env` as following:
+```
+APPLICATION_HOST=0.0.0.0
+APPLICATION_PORT=5000
+TWITTER_API_CONSUMER_KEY=AAAAA
+TWITTER_API_CONSUMER_SECRET=BBBBB
+```
+- `TWITTER_API_CONSUMER_KEY=AAAAA` Just represent, please replace `AAAAA` with the consumer key from Twiiter API.
+- `TWITTER_API_CONSUMER_SECRET=BBBBB`Just represent, please replace `BBBBB`consumer secret from Twiiter API.
+
+- `$ docker run --env-file=twitter-api.env -p 5000:5000 -it owensengoku/twitter-api:v0.1.0`
+  - remind: `--env-file=twitter-api.env`, should use the absolute path of `twitter-api.env` here.
+
+- If successful, you should got following message on Terminal
+```
+[2018-11-01 09:06:25 +0000] [1] [INFO] Starting gunicorn 19.9.0
+[2018-11-01 09:06:25 +0000] [1] [INFO] Listening at: http://0.0.0.0:5000 (1)
+[2018-11-01 09:06:25 +0000] [1] [INFO] Using worker: sync
+[2018-11-01 09:06:25 +0000] [7] [INFO] Booting worker with pid: 7
+```
+- Try `$ curl 127.0.0.1:5000 ` in another Terminal
+- You should got `{"message": "Welcome to this twtter API"}`
+
 
 ## Installation
 
