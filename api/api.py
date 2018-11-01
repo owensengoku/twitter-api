@@ -2,20 +2,28 @@
 
 from flask_api import FlaskAPI
 
-import os
 app = FlaskAPI(__name__)
-app.config["DEBUG"] = True
 
-app.config['TWITTER_API_CONSUMER_KEY'] = os.getenv('TWITTER_API_CONSUMER_KEY')
-app.config['TWITTER_API_CONSUMER_SECRET'] = os.getenv('TWITTER_API_CONSUMER_SECRET')
+# Ref: http://flask.pocoo.org/docs/1.0/config/
+# Ref: http://flask.pocoo.org/docs/1.0/api/#flask.Config
+# Notice: Flask Built-in Environment Variable with high priority
+# Like : FALSK_ENV, FLASK_DEBUG
+# Environment Variables will overwrite the config from file
+app.config.from_pyfile('default.cfg')
 
 from .resource import init_resoureces
-init_resoureces()
-
 from .handler import *
 
-def run():
-    app.run()
+def set_config(cfg):
+    if cfg.get('APPLICATION_CONFIG_PATH') is not None:
+        app.config.from_envvar('APPLICATION_CONFIG_PATH')
+    for k,v in cfg.items():
+        app.config[k] = v  
 
-if __name__ == "__main__":
-    run()
+def get_application(cfg):
+    set_config(cfg)
+    init_resoureces()
+    return app
+
+def run():
+    app.run(host=app.config.get('APPLICATION_HOST'), port=app.config.get('APPLICATION_PORT'))
