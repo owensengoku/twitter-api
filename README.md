@@ -17,8 +17,8 @@ APPLICATION_PORT=5000
 TWITTER_API_CONSUMER_KEY=AAAAA
 TWITTER_API_CONSUMER_SECRET=BBBBB
 ```
-- `TWITTER_API_CONSUMER_KEY=AAAAA` Just represent, please replace `AAAAA` with the consumer key from Twiiter API.
-- `TWITTER_API_CONSUMER_SECRET=BBBBB`Just represent, please replace `BBBBB`consumer secret from Twiiter API.
+- `TWITTER_API_CONSUMER_KEY=AAAAA` Just represent, please replace `AAAAA` to your own  consumer key from Twiiter API.
+- `TWITTER_API_CONSUMER_SECRET=BBBBB`Just represent, please replace `BBBBB` to your own consumer secret from Twiiter API.
 
 - `$ docker run --env-file=twitter-api.env -p 5000:5000 -it owensengoku/twitter-api:v0.1.0`
   - remind: `--env-file=twitter-api.env`, should use the absolute path of `twitter-api.env` here.
@@ -30,9 +30,13 @@ TWITTER_API_CONSUMER_SECRET=BBBBB
 [2018-11-01 09:06:25 +0000] [1] [INFO] Using worker: sync
 [2018-11-01 09:06:25 +0000] [7] [INFO] Booting worker with pid: 7
 ```
+
+### Try 
 - Try `$ curl 127.0.0.1:5000 ` in another Terminal
 - You should got `{"message": "Welcome to this twtter API"}`
-
+- `$ curl http://127.0.0.1:5000/hashtags/Halloween`
+- `$ curl http://127.0.0.1:5000/hashtags/seven_ika`
+- open `http://127.0.0.1:8000/apidocs` in browser
 
 ## Installation
 
@@ -179,3 +183,10 @@ $ curl http://127.0.0.1:5000/users/seven_ika?limit=1
   }
 ]
 ```
+
+
+## Data
+
+- There is some survey data in `doc` directory
+- [Twitter API Client Document](./twitter_api_client/README.md)
+
