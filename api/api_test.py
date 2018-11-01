@@ -25,19 +25,6 @@ def test_health_check(client):
     assert ret.status_code == 200
     assert b'Hello, I am OK!' in ret.data
 
-def test_hashtags(client):
-    """hashtags API."""
-
-    ret = client.get('/hashtags/tagname')
-    assert ret.status_code == 200
-    assert b'I got you want find hashtag: #tagname' in ret.data
-
-def test_users(client):
-    """users API."""
-
-    ret = client.get('/users/username')
-    assert ret.status_code == 200
-    assert b'I got you want find user: @username' in ret.data
 
 def test_not_found(client):
     """users API."""

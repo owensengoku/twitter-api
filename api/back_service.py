@@ -4,6 +4,8 @@ from twitter_api_client import twitter_api, twitter_auth, variables
 from twitter_api_client import twitter_error as te
 from flask_api import exceptions as fa_exc
 
+from .util import strftime, strptime
+
 class TwitterBackService(object):
 
     """This class is used to control the Twitter API Client integration to one
@@ -40,25 +42,42 @@ class TwitterBackService(object):
         f = getattr(self.client, method)
         try:
             return f(*args, **kwargs)
-        except (te.TwitterEnhanceYourCalmError, te.TwitterTooManyRequestsError):
-            raise fa_exc.Throttled('Twitter API Rate Limit')
+        except (te.TwitterBadRequestError, te.TwitterNotFoundError, te.TwitterGoneError) as e:
+            raise fa_exc.ParseError('Invalid Request to Twiiter API %s ' % e)
+        except te.TwitterForbiddenError as e:
+            raise fa_exc.PermissionDenied('Forbbiden to Twiiter API %s ' % e)
+        except (te.TwitterEnhanceYourCalmError, te.TwitterTooManyRequestsError) as e:
+            raise fa_exc.Throttled('Twitter API Rate Limit %s ' % e)
+        except (te.TwitterRequestError, te.TwitterServerError) as e:
+            raise fa_exc.APIException('Twitter API Error %s' % e)
         except Exception as e:
             raise fa_exc.APIException('Server Error %s' % e)
 
-       # {"account":{
-   #    "fullname":"Raymond Hettinger",
-   #    "href":"/raymondh",
-   #    "id":14159138
-   # },
-   # "date":"12:57 PM - 7 Mar 2018",
-   # "hashtags":[
-   #    "#python"
-   # ],
-   # "likes":169,
-   # "replies":13,
-   # "retweets":27,
-   # "text":"Historically, ..."}
+    def convert_date_str(self, input):
+        return strftime(strptime(input))
+
+
+    # Notice: 
     def convert_record(self, record):
+        """
+        Expected Reult
+        {   
+            "account":{
+                "fullname":"Raymond Hettinger",
+                "href":"/raymondh",
+                  "id":14159138
+            },
+            "date":"12:57 PM - 7 Mar 2018",
+            "hashtags":[
+              "#python"
+            ],
+            "likes":169,
+            "replies":13,
+            "retweets":27,
+            "text":"Historically, ..."
+        }
+
+        """
         user = record.get('user',{})
         return {
             'account': {
@@ -66,7 +85,7 @@ class TwitterBackService(object):
                 'href': '/%s' % user.get('screen_name'),
                 'id': user.get('id'),
             },
-            'date': record.get('created_at'),
+            'date': self.convert_date_str(record.get('created_at')),
             'hashtags': [ '#%s' % d.get('text') for d in record.get('entities',{}).get('hashtags',[])],
             'likes': record.get('favorite_count'),
             'retweets': record.get('retweet_count'),
