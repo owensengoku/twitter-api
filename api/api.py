@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from flask_api import FlaskAPI
+from flasgger import Swagger
 
 app = FlaskAPI(__name__)
+app.config['SWAGGER'] = {
+    'title': 'Twitter API',
+    'version': '0.1.0',
+    'description': 'An API for fetch tweets from Twitter API'
+}
+swagger = Swagger(app)
 
 # Ref: http://flask.pocoo.org/docs/1.0/config/
 # Ref: http://flask.pocoo.org/docs/1.0/api/#flask.Config
