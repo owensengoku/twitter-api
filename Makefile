@@ -2,6 +2,8 @@
 .PHONY: help prepare-dev-ubuntu test lint run doc
 
 PACKAGE=twitter-api
+VERSION=v0.1.0
+IMAGE=registry.hub.docker.com/owensengoku/$(PACKAGE):$(VERSION)
 VENV_NAME=venv
 VENV_ACTIVATE=$(VENV_NAME)/bin/activate
 PYTHON=${VENV_NAME}/bin/python
@@ -42,3 +44,8 @@ run-gunicron: venv
 	            -e TWITTER_API_CONSUMER_KEY=${TWITTER_API_CONSUMER_KEY} \
 	            -e TWITTER_API_CONSUMER_SECRET=${TWITTER_API_CONSUMER_SECRET} \
 	            server
+docker-build:
+	docker build -t $(IMAGE) .
+
+docker-push:
+	docker push $(IMAGE)
