@@ -6,6 +6,8 @@ from flask_api import exceptions as fa_exc
 
 from .util import strftime, strptime
 
+import logging
+
 class TwitterBackService(object):
 
     """This class is used to control the Twitter API Client integration to one
@@ -26,7 +28,7 @@ class TwitterBackService(object):
             'TWITTER_API_CONSUMER_KEY' not in app.config and
             'TWITTER_API_CONSUMER_SECRET' not in app.config
         ):
-            warnings.warn(
+            logging.warn(
                 'Neither TWITTER_API_CONSUMER_KEY nor TWITTER_API_CONSUMER_SECRET is set. '
             )
             raise ValueError('Wrong Argument for TwitterBackService')

@@ -13,8 +13,8 @@ def get_config_from_env():
         'APPLICATION_HOST': '0.0.0.0',
         'APPLICATION_PORT': '5000',
         'APPLICATION_CONFIG_PATH': None,
-        'TWITTER_API_CONSUMER_KEY': 'key',
-        'TWITTER_API_CONSUMER_SECRET': 'secret'
+        'TWITTER_API_CONSUMER_KEY': None,
+        'TWITTER_API_CONSUMER_SECRET': None
     }
     ret = {}
     for k, v in key_default_values.items():
