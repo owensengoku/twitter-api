@@ -74,6 +74,11 @@ Trying about build an api to query data with twitter api
 
 ## API Endpoints
 
+### Swagger
+- while api server is running, (`make run` or `python server.py`)
+- access the `/apidoc`, will see the swagger doc pages
+- e.g using browser open `127.0.0.1:5000/apidocs`
+
 ### hashtags
 - `/hashtags/<hashtag>?limit={limit}`
     - Query tweets with hashtag
