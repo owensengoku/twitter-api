@@ -24,7 +24,7 @@ pluggy==0.8.0
 py==1.7.0
 pyrsistent==0.14.5
 pytest==3.9.3
-PyYAML==3.13
+PyYAML==5.4
 requests==2.20.0
 requests-mock==1.5.2
 six==1.11.0
